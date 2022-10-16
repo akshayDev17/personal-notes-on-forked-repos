@@ -36,6 +36,19 @@
 ## Create Order
 - 
 
+# Our Contribution - make Mutex private
+
+## Introduction
+1. all functions where Mutex methods are invoked:
+    1. in `client.go`, `SendWithAuth()` invokes both `Lock()` and `Unlock()`
+    2. but this SendWithAuth method is used quite extensively.
+        1. so first lets try to create testing code wherever this method is invoked.
+
+## `SendWithAuth()`
+1. create a temp `sendwithauth()` and a `createProduct()` inside `client_test.go`.
+    1. rename this file to `client_mutex_private_test.go`.
+2. use the AssertMutexLocked from [here](https://github.com/trailofbits/go-mutexasserts/blob/master/asserts_debug.go), inside the function body of this temp `sendwithauth()`.
+
 # Our Contribution - Disputes
 1. [Paypal Developer API Link- Disputes](https://developer.paypal.com/docs/api/customer-disputes/v1/)
 2. for all enum type query parameters(`dispute_state` in List disputes)/response body fields(`dispute_channel` in show dispute details), refer to `types.go`(Possible value for `intent` in CreateOrder)
